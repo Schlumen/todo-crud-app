@@ -11,6 +11,11 @@ const { DB, PORT } = require("./config");
 const app = exp();
 
 // Middleware
+app.use(cors());
+app.use(bp.json());
+
+// Use router middleware
+app.use("/api/users", require("./routes/users"));
 
 // Start the application
 const startApp = async () => {
