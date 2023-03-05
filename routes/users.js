@@ -1,12 +1,19 @@
 const router = require("express").Router();
-// Bring in user registration and login function
+
+// Bring in user registration and login functions
 const {
     userRegister,
     userLogin,
     userAuth,
     serializeUser,
-    checkRole
+    checkRole,
+    showAdminData,
+    modifyUser,
+    deleteUser
 } = require("../utils/Auth");
+
+// Brin in notes editing functions
+const {} = require("../utils/Notes");
 
 // User registration route
 router.post("/register-user", async (req, res) => {
@@ -32,8 +39,12 @@ router.post("/login-admin", async (req, res) => {
 router.get("/profile", userAuth, async (req, res) => {
     return res.json(serializeUser(req.user));
 });
-router.put("/profile", userAuth, async (req, res) => {});
-router.delete("/profile", userAuth, async (req, res) => {});
+router.put("/profile", userAuth, async (req, res) => {
+    return modifyUser(req.body, req.user, res);
+});
+router.delete("/profile", userAuth, async (req, res) => {
+    return deleteUser(req.user._id, res);
+});
 
 router.post("/user-note", userAuth, async (req, res) => {});
 router.get("/user-note", userAuth, async (req, res) => {});
@@ -42,7 +53,7 @@ router.delete("/user-note", userAuth, async (req, res) => {});
 
 // Admin protected route
 router.get("/all-users", userAuth, checkRole(["admin"]), async (req, res) => {
-    return res.status(200).json("Hello Admin");
+    await showAdminData(res);
 });
 
 module.exports = router;

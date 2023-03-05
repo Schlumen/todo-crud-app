@@ -94,6 +94,44 @@ const userLogin = async (userCreds, role, res) => {
     }
 }
 
+// Modify user
+const modifyUser = async (userDets, user, res) => {
+    const email = userDets.email && await validateEmail(userDets.email) ? userDets.email : user.email;
+    const password = userDets.password ? await bcrypt.hash(userDets.password, 12) : user.password;
+    User.findByIdAndUpdate(user._id, {
+        name: userDets.name,
+        email,
+        password
+    }).then(user => {
+        return res.status(200).json({
+            message: "User has been updated",
+            success: true,
+        });
+    }).catch(err => {
+        return res.status(400).json({
+            message: "An error occurred",
+            success: false,
+        });
+    });
+}
+
+// Delete user
+const deleteUser = (userId, res) => {
+    User.findByIdAndRemove(userId).then(user => {
+        return res.status(200).json({
+            message: "User has been deleted",
+            success: true,
+            user: serializeUser(user)
+        });
+    }).catch(err => {
+        return res.status(400).json({
+            message: "An error occurred",
+            success: false,
+            error: err
+        });
+    });
+};
+
 // Passport middleware
 const userAuth = passport.authenticate("jwt", { session: false });
 
@@ -124,10 +162,18 @@ const serializeUser = user => {
     };
 };
 
+const showAdminData = async res => {
+    let userData = await User.find();
+    return res.status(200).json(userData.map(user => serializeUser(user)));
+} 
+
 module.exports = {
     checkRole,
     userAuth,
     userLogin,
     userRegister,
-    serializeUser
+    serializeUser,
+    showAdminData,
+    modifyUser,
+    deleteUser
 };
