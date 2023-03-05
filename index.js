@@ -1,6 +1,7 @@
 const cors = require("cors");
 const exp = require("express");
 const bp = require("body-parser");
+const passport = require("passport");
 const { connect } = require("mongoose");
 const { success, error } = require("consola");
 
@@ -13,6 +14,9 @@ const app = exp();
 // Middleware
 app.use(cors());
 app.use(bp.json());
+app.use(passport.initialize());
+
+require("./middlewares/passport")(passport);
 
 // Use router middleware
 app.use("/api/users", require("./routes/users"));
