@@ -13,7 +13,9 @@ const {
 } = require("../utils/Auth");
 
 // Brin in notes editing functions
-const {} = require("../utils/Notes");
+const {
+    getNotes
+} = require("../utils/Notes");
 
 // User registration route
 router.post("/register-user", async (req, res) => {
@@ -40,16 +42,27 @@ router.get("/profile", userAuth, async (req, res) => {
     return res.json(serializeUser(req.user));
 });
 router.put("/profile", userAuth, async (req, res) => {
-    return modifyUser(req.body, req.user, res);
+    await modifyUser(req.body, req.user, res);
 });
 router.delete("/profile", userAuth, async (req, res) => {
-    return deleteUser(req.user._id, res);
+    deleteUser(req.user._id, res);
 });
 
-router.post("/user-note", userAuth, async (req, res) => {});
-router.get("/user-note", userAuth, async (req, res) => {});
-router.put("/user-note", userAuth, async (req, res) => {});
-router.delete("/user-note", userAuth, async (req, res) => {});
+router.post("/user-note", userAuth, async (req, res) => {
+
+});
+
+router.get("/user-note", userAuth, async (req, res) => {
+    await getNotes(req.user._id, res);
+});
+
+router.put("/user-note", userAuth, async (req, res) => {
+
+});
+
+router.delete("/user-note", userAuth, async (req, res) => {
+
+});
 
 // Admin protected route
 router.get("/all-users", userAuth, checkRole(["admin"]), async (req, res) => {
