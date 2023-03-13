@@ -25,8 +25,7 @@ const UserSchema = new Schema({
     notes: [{
         title: { type: String },
         content: { type: String },
-        category: { type: String },
-        id: { type: String }
+        category: { type: String, enum: ["A", "B", "C", "D"] }
     }]
 }, { timestamps: true });
 

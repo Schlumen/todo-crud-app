@@ -14,7 +14,8 @@ const {
 
 // Brin in notes editing functions
 const {
-    getNotes
+    getNotes,
+    createNote
 } = require("../utils/Notes");
 
 // User registration route
@@ -49,7 +50,7 @@ router.delete("/profile", userAuth, async (req, res) => {
 });
 
 router.post("/user-note", userAuth, async (req, res) => {
-
+    await createNote(req.body, req.user._id, res);
 });
 
 router.get("/user-note", userAuth, async (req, res) => {
