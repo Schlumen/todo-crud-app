@@ -17,7 +17,7 @@ const {
     getNotes,
     createNote,
     updateNote,
-    deleteeNote
+    deleteNote
 } = require("../utils/Notes");
 
 // User registration route
@@ -60,11 +60,11 @@ router.get("/user-note", userAuth, async (req, res) => {
 });
 
 router.put("/user-note", userAuth, async (req, res) => {
-
+    await updateNote(req.body, req.user._id, res)
 });
 
 router.delete("/user-note", userAuth, async (req, res) => {
-    await deleteeNote(req.body.noteId, req.user._id, res);
+    await deleteNote(req.body.noteId, req.user._id, res);
 });
 
 // Admin protected route
