@@ -46,7 +46,36 @@ const createNote = async (noteDets, userId, res) => {
     }
 }
 
+const updateNote = async (noteDets, noteId, userId, res) => {
+
+}
+
+const deleteeNote = async (noteId, userId, res) => {
+    const user = await User.findById(userId);
+    if (!user) {
+        return res.status(404).json({
+            message: "Something went wrong",
+            success: false
+        });
+    }
+    User.findByIdAndUpdate(userId, {
+        $pull: { notes: { _id: noteId } }
+    }, { new: true }).then(user => {
+        res.status(200).json({
+            message: "Note successfully deleted",
+            success: true
+        })}
+    ).catch(err => {
+        res.status(500).json({
+            message: "Error: " + err,
+            success: false
+        });
+    });
+}
+
 module.exports = {
     getNotes,
-    createNote
+    createNote,
+    updateNote,
+    deleteeNote
 };

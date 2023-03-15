@@ -15,7 +15,9 @@ const {
 // Brin in notes editing functions
 const {
     getNotes,
-    createNote
+    createNote,
+    updateNote,
+    deleteeNote
 } = require("../utils/Notes");
 
 // User registration route
@@ -62,7 +64,7 @@ router.put("/user-note", userAuth, async (req, res) => {
 });
 
 router.delete("/user-note", userAuth, async (req, res) => {
-
+    await deleteeNote(req.body.noteId, req.user._id, res);
 });
 
 // Admin protected route
