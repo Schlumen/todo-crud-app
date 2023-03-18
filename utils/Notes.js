@@ -41,14 +41,14 @@ const createNote = async (noteDets, userId, res) => {
 
 const updateNote = async (noteDets, userId, res) => {
     if (noteDets.title && noteDets.content && noteDets.category && noteDets.noteId) {
-        await User.findByIdAndUpdate(userId, {
+        await User.updateOne({_id: userId, "notes._id": noteDets.noteId}, {
             $set: {
-                "notes.$[elem].title": noteDets.title,
-                "notes.$[elem].content": noteDets.content,
-                "notes.$[elem].category": noteDets.category
+                "notes.$.title": noteDets.title,
+                "notes.$.content": noteDets.content,
+                "notes.$.category": noteDets.category
             }
         }, {
-            arrayFilters: [{ "elem._id": noteDets.noteId }], new: true, runValidators: true
+            new: true, runValidators: true
         }).then(user => {
             res.status(200).json({
                 message: "Note successfully updated",
