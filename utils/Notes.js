@@ -12,13 +12,6 @@ const getNotes = async (userId, res) => {
 }
 
 const createNote = async (noteDets, userId, res) => {
-    const user = await User.findById(userId);
-    if (!user) {
-        return res.status(404).json({
-            message: "Something went wrong",
-            success: false
-        });
-    }
     if (noteDets.title && noteDets.content && noteDets.category) {
         let newNote = {
             title: noteDets.title,
@@ -46,18 +39,36 @@ const createNote = async (noteDets, userId, res) => {
     }
 }
 
-const updateNote = async (noteDets, noteId, userId, res) => {
-
-}
-
-const deleteeNote = async (noteId, userId, res) => {
-    const user = await User.findById(userId);
-    if (!user) {
+const updateNote = async (noteDets, userId, res) => {
+    if (noteDets.title && noteDets.content && noteDets.category && noteDets.noteId) {
+        await User.updateOne({_id: userId, "notes._id": noteDets.noteId}, {
+            $set: {
+                "notes.$.title": noteDets.title,
+                "notes.$.content": noteDets.content,
+                "notes.$.category": noteDets.category
+            }
+        }, {
+            new: true, runValidators: true
+        }).then(user => {
+            res.status(200).json({
+                message: "Note successfully updated",
+                success: true
+            })}
+        ).catch(err => {
+            res.status(500).json({
+                message: "Error: " + err,
+                success: false
+            });
+        });
+    } else {
         return res.status(404).json({
-            message: "Something went wrong",
+            message: "Please enter all note details",
             success: false
         });
     }
+}
+
+const deleteNote = async (noteId, userId, res) => {
     User.findByIdAndUpdate(userId, {
         $pull: { notes: { _id: noteId } }
     }, { new: true }).then(user => {
@@ -77,5 +88,5 @@ module.exports = {
     getNotes,
     createNote,
     updateNote,
-    deleteeNote
+    deleteNote
 };
