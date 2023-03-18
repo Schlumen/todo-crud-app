@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const passport = require("passport");
-const { SECRET } = require("../config/index");
+const { SECRET, ADMIN_SECRET } = require("../config/index");
 
 // Register user (user and admin)
 const userRegister = async (userDets, role, res) => {
@@ -12,6 +12,15 @@ const userRegister = async (userDets, role, res) => {
         if (!usernameNotTaken) {
             return res.status(400).json({
                 message: "Username is already taken",
+                success: false
+            });
+        }
+
+        // Check if admin is legit
+        if (role === "admin" && (!userDets.adminkey || userDets.adminkey != ADMIN_SECRET)) {
+            console.log(userDets.adminkey, ADMIN_SECRET)
+            return res.status(400).json({
+                message: "No permission to register admin account",
                 success: false
             });
         }
