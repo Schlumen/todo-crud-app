@@ -21,6 +21,9 @@ require("./middlewares/passport")(passport);
 // Use router middleware
 app.use("/api/users", require("./routes/users"));
 
+// Direct requests to public folder
+app.use(exp.static("public"));
+
 // Start the application
 const startApp = async () => {
     try {

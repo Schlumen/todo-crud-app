@@ -18,7 +18,6 @@ const userRegister = async (userDets, role, res) => {
 
         // Check if admin is legit
         if (role === "admin" && (!userDets.adminkey || userDets.adminkey != ADMIN_SECRET)) {
-            console.log(userDets.adminkey, ADMIN_SECRET)
             return res.status(400).json({
                 message: "No permission to register admin account",
                 success: false
