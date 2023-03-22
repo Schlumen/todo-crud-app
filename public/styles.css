@@ -1,0 +1,25 @@
+body {
+    overflow-x: hidden;
+}
+
+.landing-top {
+    background-color: #D6D6D6;
+}
+
+.eh-matrix {
+    max-width: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.matrix-element {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2em;
+    border-radius: 5px;
+}
