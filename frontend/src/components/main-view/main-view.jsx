@@ -15,7 +15,7 @@ export const MainView = () => {
                     path="/"
                     element={
                         <>
-                            {user ? <NotesView /> : <Navigate to="/signup" />}
+                            {user ? <NotesView /> : <Navigate to="/login" />}
                         </>
                     }
                 />
