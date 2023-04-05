@@ -1,8 +1,9 @@
-import "./style.css"
+import "./signup-style.css"
+import { Link } from "react-router-dom";
 
 export const SignupView = () => {
     return (
-        <div className="wrapper">
+        <div className="signup-wrapper">
             <div className="register-form-wrapper">
                 <form className="register-form">
                     <label htmlFor="name">Name:</label>
@@ -22,6 +23,8 @@ export const SignupView = () => {
                     <input type="password" id="password" required minLength="8" />
                     <br />
                     <input type="submit" value="Sign up" id="register-button" />
+                    <br />
+                    <Link to="/login">Already have an account? Log in here.</Link>
                 </form>
             </div>
         </div>

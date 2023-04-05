@@ -1,8 +1,9 @@
-import "./style.css"
+import "./login-style.css"
+import { Link } from "react-router-dom";
 
 export const LoginView = () => {
     return (
-        <div className="wrapper">
+        <div className="login-wrapper">
             <div className="login-form-wrapper">
                 <form className="login-form">
                     <label htmlFor="username">Username:</label>
@@ -14,6 +15,8 @@ export const LoginView = () => {
                     <input type="password" id="password" />
                     <br />
                     <input type="submit" value="Log in" id="login-button" />
+                    <br />
+                    <Link to="/signup">Don't have an account? Sing up here.</Link>
                 </form>
             </div>
         </div>

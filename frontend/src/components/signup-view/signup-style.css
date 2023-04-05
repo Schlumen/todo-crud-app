@@ -1,9 +1,9 @@
-.wrapper {
+.signup-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url("./background.png");
+    background-image: url("./signup-background.png");
     background-size: cover;
 
 }
@@ -34,7 +34,6 @@ input {
 }
 
 #register-button {
-    margin-bottom: 0;
     width: 100px;
     font-size: 16px;
     line-height: 1;
