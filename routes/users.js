@@ -12,7 +12,7 @@ const {
     deleteUser
 } = require("../utils/Auth");
 
-// Brin in notes editing functions
+// Bring in notes editing functions
 const {
     getNotes,
     createNote,

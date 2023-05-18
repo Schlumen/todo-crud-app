@@ -12,11 +12,12 @@ const getNotes = async (userId, res) => {
 }
 
 const createNote = async (noteDets, userId, res) => {
-    if (noteDets.title && noteDets.content && noteDets.category) {
+    if (noteDets.title && noteDets.content && noteDets.category && noteDets.done != undefined) {
         let newNote = {
             title: noteDets.title,
             content: noteDets.content,
             category: noteDets.category,
+            done: noteDets.done
         };
         User.findByIdAndUpdate(userId, {
             $push: { notes: newNote }
@@ -24,7 +25,8 @@ const createNote = async (noteDets, userId, res) => {
             res.status(200).json({
                 message: "Note successfully created",
                 success: true
-            })}
+            })
+        }
         ).catch(err => {
             res.status(500).json({
                 message: "Error: " + err,
@@ -40,12 +42,13 @@ const createNote = async (noteDets, userId, res) => {
 }
 
 const updateNote = async (noteDets, userId, res) => {
-    if (noteDets.title && noteDets.content && noteDets.category && noteDets.noteId) {
-        await User.updateOne({_id: userId, "notes._id": noteDets.noteId}, {
+    if (noteDets.title && noteDets.content && noteDets.category && noteDets.noteId && noteDets.done != undefined) {
+        await User.updateOne({ _id: userId, "notes._id": noteDets.noteId }, {
             $set: {
                 "notes.$.title": noteDets.title,
                 "notes.$.content": noteDets.content,
-                "notes.$.category": noteDets.category
+                "notes.$.category": noteDets.category,
+                "notes.$.done": noteDets.done
             }
         }, {
             new: true, runValidators: true
@@ -53,7 +56,8 @@ const updateNote = async (noteDets, userId, res) => {
             res.status(200).json({
                 message: "Note successfully updated",
                 success: true
-            })}
+            })
+        }
         ).catch(err => {
             res.status(500).json({
                 message: "Error: " + err,
@@ -75,7 +79,8 @@ const deleteNote = async (noteId, userId, res) => {
         res.status(200).json({
             message: "Note successfully deleted",
             success: true
-        })}
+        })
+    }
     ).catch(err => {
         res.status(500).json({
             message: "Error: " + err,
